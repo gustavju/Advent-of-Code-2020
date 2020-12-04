@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace AoC2020
 {
@@ -20,14 +21,17 @@ namespace AoC2020
 
             BaseDay dayClass = Activator.CreateInstance(Type.GetType($"AoC2020.Days.Day{day}")) as BaseDay;
 
+            Stopwatch sw = Stopwatch.StartNew();
             var partOneResult = dayClass.PartOne(input);
+            sw.Stop();
+            Console.WriteLine("--------------------------------");
+            Console.WriteLine($"Result 1: {partOneResult}, Time taken: {sw.ElapsedMilliseconds}ms");
+            Console.WriteLine("--------------------------------");
+
+            sw = Stopwatch.StartNew();
             var partTwoResult = dayClass.PartTwo(input);
-
-
-            Console.WriteLine("--------------------------------");
-            Console.WriteLine($"Result 1: {partOneResult}");
-            Console.WriteLine("--------------------------------");
-            Console.WriteLine($"Result 2: {partTwoResult}");
+            sw.Stop();
+            Console.WriteLine($"Result 2: {partTwoResult}, Time taken: {sw.ElapsedMilliseconds}ms");
             Console.WriteLine("--------------------------------");
         }
     }
