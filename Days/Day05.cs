@@ -1,11 +1,30 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AoC2020.Days
 {
     public class Day05 : BaseDay
     {
+        public int toSeatId(string s)
+        {
+            return Convert.ToInt32(s.Replace('F', '0').Replace('B', '1').Replace('L', '0').Replace('R', '1'), 2);
+        }
+
+        public override string PartOne(string input)
+        {
+            return $"{input.Split(Environment.NewLine).Select(s => this.toSeatId(s)).Max()}";
+        }
+
+        public override string PartTwo(string input)
+        {
+            var ids = input.Split(Environment.NewLine).Select(s => toSeatId(s)).ToList().OrderBy(i => i);
+            return $"{Enumerable.Range(ids.First(), ids.Count()).Except(ids).First()}";
+        }
+
+        /* Less golfy version below  */
+
         public SortedSet<int> GetSeatIds(string input)
         {
             SortedSet<int> seatIds = new SortedSet<int>();
@@ -30,16 +49,16 @@ namespace AoC2020.Days
             return low;
         }
 
-        public override string PartOne(string input)
+        public string AltPartOne(string input)
         {
             var highestSeatId = GetSeatIds(input).Last();
             return $"{highestSeatId}";
         }
 
-        public override string PartTwo(string input)
+        public string AltPartTwo(string input)
         {
             var seatIds = GetSeatIds(input);
-            var missingSeat = Enumerable.Range(seatIds.First(), seatIds.Last()).Except(seatIds).First();
+            var missingSeat = Enumerable.Range(seatIds.First(), seatIds.Count).Except(seatIds).First();
             return $"{missingSeat}";
         }
     }
