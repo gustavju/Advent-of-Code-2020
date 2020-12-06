@@ -14,7 +14,7 @@ namespace AoC2020.Days
 
         public override string PartOne(string input)
         {
-            return $"{input.Split(Environment.NewLine).Select(s => this.toSeatId(s)).Max()}";
+            return $"{input.Split(Environment.NewLine).Select(s => toSeatId(s)).Max()}";
         }
 
         public override string PartTwo(string input)
