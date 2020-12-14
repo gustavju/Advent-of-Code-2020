@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AoC2020.Days
@@ -29,7 +30,29 @@ namespace AoC2020.Days
 
         public override string PartTwo(string input)
         {
-            return $"Too much number theory for a sunday morning! 🥺";
+            var lines = input.Split(Environment.NewLine);
+            var items = lines[1].Split(',').ToArray();
+
+            long time = 0;
+            long increment = long.Parse(items[0]);
+            for (int i = 1; i < items.Length; i++)
+            {
+                // if we have an x, just skip to increment i which updates offset
+                if (items[i] == "x")
+                {
+                    continue;
+                }
+                long nextBus = long.Parse(items[i]);
+                // Add the offset (i) to the time to check where nextBus need to be.
+                while ((time + i) % nextBus != 0)
+                {
+                    // Jump in list to next place where found buses align
+                    time += increment;
+                }
+                // Next align will be a multiple of all earlier found buses
+                increment *= nextBus;
+            }
+            return time.ToString();
         }
     }
 }
